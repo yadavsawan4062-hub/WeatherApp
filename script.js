@@ -1,16 +1,19 @@
 const userTab = document.querySelector("[data-userWeather]");
 const searchTab = document.querySelector("[data-searchWerather]");
-const userCotainer = document.querySelector(".weather-cotainer");
+const userCotainer = document.querySelector(".weather-container");
 
 const grantAccessContainer = document.querySelector(".grant-location-container");
 const searchForm= document.querySelector("[data-searchForm]");
 const lodingScreen= document.querySelector(".loding-container");
+const notFoundContainer = document.querySelector(".not-found-container");
 const userInfoContainer= document.querySelector(".user-info-container");
 const parameterContainer= document.querySelector(".parameter-container");
 
 let currentTab = userTab;
 const API_KEY ="e336c361a56ab71bfbfcf699e91f9e6a";
 currentTab.classList.add("current-tab");
+localStorage.removeItem("user-coordinates");
+
 getfromSessionStorage();
  
 function switchTab(clickedTab){
@@ -41,18 +44,21 @@ function switchTab(clickedTab){
  })
 
  function getfromSessionStorage(){
-   const localCoordinates= localStorage.getItem("user-coordinates");
-   if(!localCoordinates){
-       grantAccessContainer.classList.add("active");
-   }
-   else{
-      const coordinates =JSON.parse(localCoordinates);
-      fetchUserWeatherInfo(coordinates);
-      
-   }
- }
+    const localCoordinates = localStorage.getItem("user-coordinates");
+    console.log("Coordinates:", localCoordinates);
 
+    if(!localCoordinates){
+        console.log("Adding active class");
+        grantAccessContainer.classList.add("active");
+    }
+    else{
+        console.log("Fetching weather");
+        const coordinates = JSON.parse(localCoordinates);
+        fetchUserWeatherInfo(coordinates);
+    }
+}
  async function fetchUserWeatherInfo(coordinates){
+   console.log("fetchUserWeatherInfo called");
     const {lat, lon} =coordinates;
     grantAccessContainer.classList.remove("active");
 
@@ -66,9 +72,12 @@ function switchTab(clickedTab){
       renderWeatherInfo(data);
     }
     catch(err){
+    lodingScreen.classList.remove("active");
 
-      lodingScreen.classList.remove("active");
-      console.log("check code" );
+    // Agar coordinates invalid ho ya request fail ho
+    localStorage.removeItem("user-coordinates");
+
+    grantAccessContainer.classList.add("active");
     }
 
  }
@@ -95,8 +104,7 @@ function switchTab(clickedTab){
 
    function getLocation(){
       if(navigator.geolocation){
-         navigator.geolocation.getCurrentPosition(showPosition)
-      }
+   navigator.geolocation.getCurrentPosition(showPosition, showError);   }
       else{
          
       }
@@ -110,6 +118,14 @@ function switchTab(clickedTab){
         localStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
         fetchUserWeatherInfo(userCoordinates);
    }
+function showError(){
+
+    localStorage.removeItem("user-coordinates");
+
+    alert("Location permission is required.");
+
+    grantAccessContainer.classList.add("active");
+}
 
    const grantAccessButton = document.querySelector("[data-grantAccess]");
    grantAccessButton.addEventListener("click", getLocation);
@@ -129,19 +145,32 @@ async function fetchSearchWeatherInfo(city){
  lodingScreen.classList.add("active");
  userInfoContainer.classList.remove("active");
  grantAccessContainer.classList.remove("active");
+ notFoundContainer.classList.remove("active");
 
  try{
 
    const response=await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
    );
-   const data = await response.json();
- lodingScreen.classList.remove ("active");
- userInfoContainer.classList.add("active");
+  const data = await response.json();
+
+if(data.cod != 200){
+    throw new Error("Location not found");
+}
+
+lodingScreen.classList.remove("active");
+
+// 404 container hide karo
+notFoundContainer.classList.remove("active");
+
+// Weather show karo
+userInfoContainer.classList.add("active");
 renderWeatherInfo(data);
 
  }
- catch(err){
-
- }
+catch(err){
+    lodingScreen.classList.remove("active");
+    userInfoContainer.classList.remove("active");
+    notFoundContainer.classList.add("active");
+}
     }

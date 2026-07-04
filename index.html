@@ -7,13 +7,14 @@
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="wrapper">  
+    <div class="wrapper">
         <h1>Weather App</h1>
         <div class="tab-container">
             <p class="tab" data-userWeather>Your Weather</p>
@@ -33,13 +34,19 @@
             <form class="form-container" data-searchForm>
                 <input placeholder="Search for City..." data-searchInput>
                 <button class="btn" type="submit ">
-                    <img src="./assets/search.png" style="background: transparent;" width="15" height="10" loading="lazy">
+                    <img src="./assets/search.png" style="background: transparent;" width="15" height="10"
+                        loading="lazy">
                 </button>
             </form>
             <!-- Loding screen container -->
             <div class="sub-container loding-container">
-                <img src="./assets/Laoding Green.gif"  width="120" height="120">
+                <img src="./assets/Laoding Green.gif" width="120" height="120">
                 <p>Loding</p>
+            </div>
+            <!-- not-found-container -->
+            <div class="sub-container not-found-container">
+                <img src="./assets/notFound.png" width="250" alt="404 Not Found">
+                <p>City not found</p>
             </div>
 
             <!-- show weather information   -->
@@ -62,22 +69,22 @@
                 <div class="parameter-container">
                     <!-- card 1 -->
                     <div class="parameter">
-                        <img src="./assets/wind images.png"  width="200" height="120">
+                        <img src="./assets/wind images.png" width="200" height="120">
                         <p>windspeed</p>
                         <p data-windspeed></p>
                     </div>
                     <!-- card 2 -->
                     <div class="parameter">
-                        <img src="./assets/humidity.jpg"  width="150" height="150">
+                        <img src="./assets/humidity.jpg" width="150" height="150">
                         <p>humidity</p>
                         <p data-humidity></p>
                     </div>
                     <!-- card 1 -->
                     <div class="parameter">
-                        <img src="./assets/cloud.png"  width="150" height="150">
+                        <img src="./assets/cloud.png" width="150" height="150">
                         <p>clouds</p>
                         <p data-cloudiness></p>
-                    </div>  
+                    </div>
                 </div>
 
             </div>
