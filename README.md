@@ -6,9 +6,23 @@ A simple and responsive Weather App built using HTML, CSS, and JavaScript. This 
 
 https://yadavsawan4062-hub.github.io/WeatherApp/
 
-## 📸 Screenshot
+## 📸 Screenshots
 
-![Weather App](./screenshot.png)
+### 🏠 Home Page
+
+![Home Page](./screenshot1.png)
+
+### 📍 Current Location Weather
+
+![Current Location Weather](./screenshot2.png)
+
+### 🌍 Search Weather by City
+
+![Search Weather](./screenshot3.png)
+
+### ❌ City Not Found
+
+![City Not Found](./screenshot4.png)
 
 ## ✨ Features
 
